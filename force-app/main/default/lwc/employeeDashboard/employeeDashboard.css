@@ -1,0 +1,66 @@
+/* GCR brand colours, defined once as CSS variables so every component stays consistent */
+:host {
+    --gcr-red: #D2091E;
+    --gcr-dark: #1A1A1A;
+    --gcr-grey: #595959;
+    --gcr-light: #F7F7F7;
+}
+
+.gcr-dashboard {
+    font-family: 'Salesforce Sans', Arial, sans-serif;
+    padding: 1.5rem;
+}
+
+.gcr-title {
+    color: var(--gcr-dark);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.gcr-subtitle {
+    color: var(--gcr-grey);
+    margin: 0.25rem 0 1.5rem 0;
+}
+
+.gcr-balance-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.gcr-balance-card {
+    background: #FFFFFF;
+    border-top: 4px solid var(--gcr-red);
+    border-radius: 4px;
+    padding: 1rem;
+    min-width: 140px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.gcr-balance-type {
+    color: var(--gcr-grey);
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.gcr-balance-days {
+    color: var(--gcr-red);
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.gcr-balance-label {
+    color: var(--gcr-grey);
+    font-size: 0.75rem;
+    margin: 0;
+}
+
+.gcr-error {
+    color: var(--gcr-red);
+    background: #FDECEE;
+    padding: 1rem;
+    border-radius: 4px;
+}
