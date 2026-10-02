@@ -19,6 +19,18 @@
                 <identifier>c_leaveHistory</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>myTraining</componentName>
+                <identifier>c_myTraining</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>myDocuments</componentName>
+                <identifier>c_myDocuments</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>main</name>
         <type>Region</type>
     </flexiPageRegions>
