@@ -1,0 +1,27 @@
+<template>
+    <lightning-card title="My Documents" icon-name="custom:custom18">
+        <div class="slds-p-horizontal_medium">
+            <template if:true={documents.length}>
+                <template for:each={documents} for:item="doc">
+                    <div key={doc.id} class="slds-box slds-m-bottom_small slds-grid slds-grid_align-spread slds-grid_vertical-align-center">
+                        <div>
+                            <p class="slds-text-heading_small">{doc.name}</p>
+                            <p class="slds-text-body_small slds-text-color_weak">{doc.type} &middot; {doc.uploadDate}</p>
+                        </div>
+                        <template if:true={doc.hasFile}>
+                            <a href={doc.downloadUrl} target="_blank">
+                                <lightning-button variant="brand-outline" label="Download"></lightning-button>
+                            </a>
+                        </template>
+                        <template if:false={doc.hasFile}>
+                            <span class="slds-text-color_weak slds-text-body_small">No file attached</span>
+                        </template>
+                    </div>
+                </template>
+            </template>
+            <template if:false={documents.length}>
+                <p class="slds-text-color_weak">You have no documents yet.</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>
