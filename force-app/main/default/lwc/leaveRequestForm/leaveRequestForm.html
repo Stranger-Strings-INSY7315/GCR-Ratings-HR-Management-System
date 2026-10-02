@@ -1,0 +1,41 @@
+<template>
+    <div class="gcr-form">
+        <h2 class="gcr-form-title">Apply for Leave</h2>
+
+        <lightning-combobox
+            label="Leave Type"
+            placeholder="Select a leave type"
+            options={leaveTypeOptions}
+            value={selectedLeaveTypeId}
+            onchange={handleLeaveTypeChange}>
+        </lightning-combobox>
+
+        <lightning-input
+            type="date"
+            label="Start Date"
+            value={startDate}
+            onchange={handleStartDateChange}>
+        </lightning-input>
+
+        <lightning-input
+            type="date"
+            label="End Date"
+            value={endDate}
+            onchange={handleEndDateChange}>
+        </lightning-input>
+
+        <lightning-textarea
+            label="Reason"
+            value={reason}
+            onchange={handleReasonChange}>
+        </lightning-textarea>
+
+        <lightning-button
+            label="Submit Request"
+            variant="brand"
+            class="gcr-submit-btn"
+            disabled={isSubmitting}
+            onclick={handleSubmit}>
+        </lightning-button>
+    </div>
+</template>

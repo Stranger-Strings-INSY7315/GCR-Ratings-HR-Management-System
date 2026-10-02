@@ -1,0 +1,30 @@
+:host {
+    --gcr-red: #D2091E;
+}
+
+.gcr-form {
+    background: #FFFFFF;
+    padding: 1.5rem;
+    border-radius: 4px;
+    max-width: 480px;
+    font-family: 'Salesforce Sans', Arial, sans-serif;
+}
+
+.gcr-form-title {
+    color: #1A1A1A;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+}
+
+.gcr-form lightning-input,
+.gcr-form lightning-combobox,
+.gcr-form lightning-textarea {
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.gcr-submit-btn {
+    --slds-c-button-brand-color-background: var(--gcr-red);
+    --slds-c-button-brand-color-border: var(--gcr-red);
+}

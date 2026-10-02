@@ -1,0 +1,21 @@
+<template>
+    <div class="gcr-history">
+        <h2 class="gcr-history-title">My Leave Requests</h2>
+
+        <template if:true={hasRequests}>
+            <template for:each={requests} for:item="req">
+                <div class="gcr-history-row" key={req.Id}>
+                    <div class="gcr-history-main">
+                        <p class="gcr-history-type">{req.Leave_Type__r.Name}</p>
+                        <p class="gcr-history-dates">{req.Start_Date__c} to {req.End_Date__c}</p>
+                    </div>
+                    <span class={req.statusClass}>{req.Status__c}</span>
+                </div>
+            </template>
+        </template>
+
+        <template if:false={hasRequests}>
+            <p class="gcr-history-empty">No leave requests yet.</p>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,55 @@
+:host {
+    --gcr-red: #D2091E;
+}
+
+.gcr-history {
+    background: #FFFFFF;
+    padding: 1.5rem;
+    border-radius: 4px;
+    font-family: 'Salesforce Sans', Arial, sans-serif;
+}
+
+.gcr-history-title {
+    color: #1A1A1A;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+}
+
+.gcr-history-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.gcr-history-type {
+    font-weight: 600;
+    margin: 0;
+    color: #1A1A1A;
+}
+
+.gcr-history-dates {
+    color: #595959;
+    font-size: 0.85rem;
+    margin: 0.15rem 0 0 0;
+}
+
+.gcr-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.gcr-badge-approved { background: #E4F5E9; color: #1B7A3D; }
+.gcr-badge-rejected { background: #FDECEE; color: #D2091E; }
+.gcr-badge-submitted, .gcr-badge-under-review { background: #FFF4E0; color: #B36B00; }
+.gcr-badge-draft { background: #EFEFEF; color: #595959; }
+
+.gcr-history-empty {
+    color: #595959;
+}
