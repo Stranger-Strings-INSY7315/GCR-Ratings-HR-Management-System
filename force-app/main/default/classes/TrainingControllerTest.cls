@@ -66,7 +66,7 @@ private class TrainingControllerTest {
         Test.stopTest();
 
         Training_Request__c created = [SELECT Status__c, Justification__c FROM Training_Request__c WHERE Id = :newId];
-        System.assertEquals('Pending', created.Status__c, 'New requests should default to Pending');
+        System.assertEquals('Submitted', created.Status__c, 'New requests should default to Submitted');
     }
 
     @isTest

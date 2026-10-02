@@ -67,7 +67,7 @@ public with sharing class TrainingController {
         req.Employee__c = employeeId;
         req.Course__c = courseId;
         req.Justification__c = reason;
-        req.Status__c = 'Pending';
+        req.Status__c = 'Submitted';
         req.Request_Date__c = Date.today();
 
         try {
