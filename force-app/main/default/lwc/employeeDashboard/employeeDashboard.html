@@ -1,3 +1,24 @@
 <template>
-    
+    <div class="gcr-dashboard">
+        <template if:true={error}>
+            <div class="gcr-error">{error}</div>
+        </template>
+
+        <template if:true={employee}>
+            <div class="gcr-header">
+                <h1 class="gcr-title">Welcome, {fullName}</h1>
+                <p class="gcr-subtitle">{departmentAndPosition}</p>
+            </div>
+
+            <div class="gcr-balance-grid">
+                <template for:each={balances} for:item="bal">
+                    <div class="gcr-balance-card" key={bal.Id}>
+                        <p class="gcr-balance-type">{bal.Leave_Type__r.Name}</p>
+                        <p class="gcr-balance-days">{bal.Remaining_Days__c}</p>
+                        <p class="gcr-balance-label">days remaining</p>
+                    </div>
+                </template>
+            </div>
+        </template>
+    </div>
 </template>
