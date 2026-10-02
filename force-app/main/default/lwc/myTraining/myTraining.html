@@ -1,0 +1,59 @@
+<template>
+    <lightning-card title="My Training" icon-name="custom:custom63">
+
+        <div class="slds-p-horizontal_medium">
+            <h3 class="slds-text-heading_small slds-m-bottom_small">Assigned to Me</h3>
+            <template if:true={myTrainings.length}>
+                <template for:each={myTrainings} for:item="t">
+                    <div key={t.id} class="slds-box slds-m-bottom_small">
+                        <p class="slds-text-heading_small">{t.courseName}</p>
+                        <p>Status: <strong>{t.status}</strong> - {t.hours} hours</p>
+                    </div>
+                </template>
+            </template>
+            <template if:false={myTrainings.length}>
+                <p class="slds-text-color_weak">You have no assigned training yet.</p>
+            </template>
+        </div>
+
+        <div class="slds-p-horizontal_medium slds-p-top_medium slds-border_top">
+            <h3 class="slds-text-heading_small slds-m-bottom_small slds-m-top_small">Request a Course</h3>
+            <lightning-combobox
+                name="course"
+                label="Course"
+                value={selectedCourseId}
+                placeholder="Choose a course"
+                options={courseOptions}
+                onchange={handleCourseChange}>
+            </lightning-combobox>
+            <lightning-textarea
+                name="reason"
+                label="Why do you need this training?"
+                value={reason}
+                onchange={handleReasonChange}>
+            </lightning-textarea>
+            <lightning-button
+                variant="brand"
+                label="Submit Request"
+                class="slds-m-top_small"
+                disabled={isSubmitDisabled}
+                onclick={handleSubmit}>
+            </lightning-button>
+        </div>
+
+        <div class="slds-p-horizontal_medium slds-p-top_medium slds-border_top">
+            <h3 class="slds-text-heading_small slds-m-bottom_small slds-m-top_small">My Requests</h3>
+            <template if:true={myRequests.length}>
+                <template for:each={myRequests} for:item="r">
+                    <div key={r.id} class="slds-box slds-m-bottom_small">
+                        <p>{r.courseName} - <strong>{r.status}</strong></p>
+                    </div>
+                </template>
+            </template>
+            <template if:false={myRequests.length}>
+                <p class="slds-text-color_weak">You haven't requested any training yet.</p>
+            </template>
+        </div>
+
+    </lightning-card>
+</template>
