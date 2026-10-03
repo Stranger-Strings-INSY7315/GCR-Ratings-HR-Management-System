@@ -68,12 +68,19 @@ public with sharing class LeaveApprovalController {
 
         Id approverEmployeeId = getCurrentApproverEmployeeId();
 
-        lv.Status__c = 'Approved';
-        lv.Approver__c = approverEmployeeId;
-        lv.Approved_Date__c = Date.today();
+        // Build a minimal record with only the fields we're changing, so the
+        // DML statement never touches Employee__c (a master-detail field,
+        // which Salesforce blocks from being edited this way even though
+        // we never actually change its value).
+        Leave__c updateRecord = new Leave__c(
+            Id = lv.Id,
+            Status__c = 'Approved',
+            Approver__c = approverEmployeeId,
+            Approved_Date__c = Date.today()
+        );
 
         try {
-            update as user lv;
+            update as user updateRecord;
         } catch (DmlException e) {
             throw new AuraHandledException('Could not approve this request: ' + e.getMessage());
         }
@@ -95,10 +102,13 @@ public with sharing class LeaveApprovalController {
 
         if (!balances.isEmpty()) {
             Leave_Balance__c bal = balances[0];
-            bal.Remaining_Days__c = (bal.Remaining_Days__c == null ? 0 : bal.Remaining_Days__c) - daysTaken;
-            bal.Used_Days__c = (bal.Used_Days__c == null ? 0 : bal.Used_Days__c) + daysTaken;
+            Leave_Balance__c balanceUpdate = new Leave_Balance__c(
+                Id = bal.Id,
+                Remaining_Days__c = (bal.Remaining_Days__c == null ? 0 : bal.Remaining_Days__c) - daysTaken,
+                Used_Days__c = (bal.Used_Days__c == null ? 0 : bal.Used_Days__c) + daysTaken
+            );
             try {
-                update as user bal;
+                update as user balanceUpdate;
             } catch (DmlException e) {
                 throw new AuraHandledException('Leave was approved, but the balance could not be updated: ' + e.getMessage());
             }
@@ -128,12 +138,15 @@ public with sharing class LeaveApprovalController {
 
         Id approverEmployeeId = getCurrentApproverEmployeeId();
 
-        lv.Status__c = 'Rejected';
-        lv.Approver__c = approverEmployeeId;
-        lv.Rejection_Reason__c = rejectionReason;
+        Leave__c updateRecord = new Leave__c(
+            Id = lv.Id,
+            Status__c = 'Rejected',
+            Approver__c = approverEmployeeId,
+            Rejection_Reason__c = rejectionReason
+        );
 
         try {
-            update as user lv;
+            update as user updateRecord;
         } catch (DmlException e) {
             throw new AuraHandledException('Could not reject this request: ' + e.getMessage());
         }
