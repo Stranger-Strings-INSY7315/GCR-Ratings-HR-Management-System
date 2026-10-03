@@ -4,12 +4,31 @@
         <div class="slds-p-horizontal_medium">
 
             <template if:true={hasRecords}>
-                <lightning-datatable
-                    key-field="attendanceId"
-                    data={records}
-                    columns={columns}
-                    hide-checkbox-column="true">
-                </lightning-datatable>
+                <template for:each={records} for:item="rec">
+                    <div key={rec.attendanceId} class="slds-box slds-m-bottom_small gcr-attendance-box">
+                        <p class="slds-text-heading_small">{rec.employeeName}</p>
+                        <p>
+                            Date:
+                            <lightning-formatted-date-time value={rec.attendanceDate} year="numeric" month="short" day="2-digit"></lightning-formatted-date-time>
+                        </p>
+                        <p>
+                            Clock In:
+                            <template if:true={rec.clockIn}>
+                                <lightning-formatted-date-time value={rec.clockIn} hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+                            </template>
+                        </p>
+                        <p>
+                            Clock Out:
+                            <template if:true={rec.clockOut}>
+                                <lightning-formatted-date-time value={rec.clockOut} hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+                            </template>
+                            <template if:false={rec.clockOut}>
+                                <span class="slds-text-color_weak">Still clocked in</span>
+                            </template>
+                        </p>
+                        <p>Hours Worked: {rec.hoursWorkedLabel}</p>
+                    </div>
+                </template>
             </template>
 
             <template if:false={hasRecords}>
