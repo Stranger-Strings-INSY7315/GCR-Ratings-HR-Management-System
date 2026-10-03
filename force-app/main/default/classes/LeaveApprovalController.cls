@@ -4,6 +4,7 @@
  *   - list of all leave requests waiting for a decision
  *   - approving a request (and deducting the days from that employee's balance)
  *   - rejecting a request (with a reason)
+ * Also notifies the employee when a decision is made on their request.
  */
 public with sharing class LeaveApprovalController {
 
@@ -55,7 +56,8 @@ public with sharing class LeaveApprovalController {
         }
 
         List<Leave__c> matches = [
-            SELECT Id, Employee__c, Leave_Type__c, Start_Date__c, End_Date__c, Status__c
+            SELECT Id, Employee__c, Employee__r.Salesforce_User__c, Leave_Type__c,
+                   Start_Date__c, End_Date__c, Status__c
             FROM Leave__c
             WHERE Id = :leaveRequestId
             WITH USER_MODE
@@ -68,8 +70,8 @@ public with sharing class LeaveApprovalController {
 
         Id approverEmployeeId = getCurrentApproverEmployeeId();
 
-        // Build a minimal record with only the fields we're changing, so the
-        // DML statement never touches Employee__c (a master-detail field,
+        // Minimal record: only the fields being changed, so the DML
+        // statement never touches Employee__c (a master-detail field,
         // which Salesforce blocks from being edited this way even though
         // we never actually change its value).
         Leave__c updateRecord = new Leave__c(
@@ -113,6 +115,13 @@ public with sharing class LeaveApprovalController {
                 throw new AuraHandledException('Leave was approved, but the balance could not be updated: ' + e.getMessage());
             }
         }
+
+        if (lv.Employee__r.Salesforce_User__c != null) {
+            NotificationService.notify(
+                lv.Employee__r.Salesforce_User__c,
+                'Your leave request from ' + lv.Start_Date__c.format() + ' to ' + lv.End_Date__c.format() + ' has been approved.'
+            );
+        }
     }
 
     @AuraEnabled
@@ -125,7 +134,7 @@ public with sharing class LeaveApprovalController {
         }
 
         List<Leave__c> matches = [
-            SELECT Id, Status__c
+            SELECT Id, Employee__r.Salesforce_User__c, Start_Date__c, End_Date__c, Status__c
             FROM Leave__c
             WHERE Id = :leaveRequestId
             WITH USER_MODE
@@ -149,6 +158,13 @@ public with sharing class LeaveApprovalController {
             update as user updateRecord;
         } catch (DmlException e) {
             throw new AuraHandledException('Could not reject this request: ' + e.getMessage());
+        }
+
+        if (lv.Employee__r.Salesforce_User__c != null) {
+            NotificationService.notify(
+                lv.Employee__r.Salesforce_User__c,
+                'Your leave request from ' + lv.Start_Date__c.format() + ' to ' + lv.End_Date__c.format() + ' has been rejected. Reason: ' + rejectionReason
+            );
         }
     }
 
