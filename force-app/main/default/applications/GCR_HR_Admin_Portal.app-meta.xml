@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#D2091E</headerColor>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <formFactors>Small</formFactors>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
+    <label>GCR HR Admin Portal</label>
+    <navType>Standard</navType>
+    <tabs>HR_Leave_Approvals</tabs>
+    <tabs>HR_Performance_Reviews</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>GCR_HR_Admin_Portal_UtilityBar</utilityBar>
+</CustomApplication>

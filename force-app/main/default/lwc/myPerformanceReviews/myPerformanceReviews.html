@@ -1,0 +1,24 @@
+<template>
+    <lightning-card title="My Performance Reviews" icon-name="custom:custom63">
+
+        <div class="slds-p-horizontal_medium">
+
+            <template if:true={hasReviews}>
+                <template for:each={reviews} for:item="rev">
+                    <div key={rev.reviewId} class="slds-box slds-m-bottom_small gcr-review-box">
+                        <p class="slds-text-heading_small">Review Date: {rev.reviewDate}</p>
+                        <p>Reviewer: {rev.reviewerName}</p>
+                        <p>Rating: {rev.ratingLabel}</p>
+                        <p>Comments: {rev.comments}</p>
+                    </div>
+                </template>
+            </template>
+
+            <template if:false={hasReviews}>
+                <p class="slds-text-color_weak slds-p-vertical_medium">You don't have any finalized performance reviews yet.</p>
+            </template>
+
+        </div>
+
+    </lightning-card>
+</template>
