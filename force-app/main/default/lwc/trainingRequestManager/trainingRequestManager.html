@@ -1,0 +1,70 @@
+<template>
+    <lightning-card title="Training Requests" icon-name="standard:approval">
+
+        <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+            <h3 class="slds-text-heading_small slds-m-bottom_small">Assign a Course Directly</h3>
+            <lightning-combobox
+                label="Employee"
+                value={selectedEmployeeId}
+                placeholder="Choose an employee"
+                options={employeeOptions}
+                onchange={handleEmployeeChange}>
+            </lightning-combobox>
+            <lightning-combobox
+                label="Course"
+                value={selectedCourseId}
+                placeholder="Choose a course"
+                options={courseOptions}
+                onchange={handleCourseChange}>
+            </lightning-combobox>
+            <lightning-button
+                variant="brand"
+                label="Assign Training"
+                class="slds-m-top_small"
+                disabled={isAssignDisabled}
+                onclick={handleAssignDirectly}>
+            </lightning-button>
+        </div>
+
+        <div class="slds-p-horizontal_medium slds-p-bottom_medium slds-border_top slds-p-top_medium">
+            <h3 class="slds-text-heading_small slds-m-bottom_small">All Requests</h3>
+            <template if:true={requests.length}>
+                <template for:each={requests} for:item="r">
+                    <div key={r.id} class="slds-box slds-m-bottom_small gcr-request-box">
+                        <div class="slds-grid slds-grid_align-spread">
+                            <div>
+                                <p class="slds-text-heading_small">{r.employeeName} - {r.courseName}</p>
+                                <p>Requested: <lightning-formatted-date-time value={r.requestDate} year="numeric" month="short" day="2-digit"></lightning-formatted-date-time></p>
+                                <p class="slds-text-color_weak">{r.justification}</p>
+                            </div>
+                            <div class="slds-text-align_right">
+                                <span class={r.badgeClass}>{r.status}</span>
+                                <template if:true={r.isPending}>
+                                    <div class="slds-m-top_x-small">
+                                        <lightning-button
+                                            variant="success"
+                                            label="Approve"
+                                            data-id={r.id}
+                                            onclick={handleApprove}>
+                                        </lightning-button>
+                                        <lightning-button
+                                            variant="destructive"
+                                            label="Reject"
+                                            class="slds-m-left_x-small"
+                                            data-id={r.id}
+                                            onclick={handleReject}>
+                                        </lightning-button>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </template>
+            <template if:false={requests.length}>
+                <p class="slds-text-color_weak">No training requests yet.</p>
+            </template>
+        </div>
+
+    </lightning-card>
+</template>

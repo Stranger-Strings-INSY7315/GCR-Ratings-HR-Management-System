@@ -1,16 +1,19 @@
 import { LightningElement, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { refreshApex } from '@salesforce/apex';
 import getCurrentEmployee from '@salesforce/apex/TrainingController.getCurrentEmployee';
 import getMyTrainings from '@salesforce/apex/TrainingController.getMyTrainings';
 import getAvailableCourses from '@salesforce/apex/TrainingController.getAvailableCourses';
 import getMyTrainingRequests from '@salesforce/apex/TrainingController.getMyTrainingRequests';
 import submitTrainingRequest from '@salesforce/apex/TrainingController.submitTrainingRequest';
+import markTrainingComplete from '@salesforce/apex/TrainingController.markTrainingComplete';
 
 export default class MyTraining extends LightningElement {
     employeeId;
     myTrainings = [];
     courseOptions = [];
     myRequests = [];
+    wiredMyTrainingsResult;
 
     selectedCourseId;
     reason = '';
@@ -26,18 +29,20 @@ export default class MyTraining extends LightningElement {
     }
 
     @wire(getMyTrainings, { employeeId: '$employeeId' })
-    wiredMyTrainings({ data, error }) {
-        if (data) {
-            this.myTrainings = data.map((row) => ({
+    wiredMyTrainings(result) {
+        this.wiredMyTrainingsResult = result;
+        if (result.data) {
+            this.myTrainings = result.data.map((row) => ({
                 id: row.Id,
                 courseName: row.Course__r ? row.Course__r.Name : '',
                 hours: row.Course__r ? row.Course__r.Duration_Hours__c : 0,
                 status: row.Status__c,
                 assignedDate: row.Assigned_Date__c,
                 completionDate: row.Completion_Date__c,
+                canMarkComplete: row.Status__c === 'Assigned' || row.Status__c === 'In Progress',
             }));
-        } else if (error) {
-            this.showError('Could not load your training history', error);
+        } else if (result.error) {
+            this.showError('Could not load your training history', result.error);
         }
     }
 
@@ -101,6 +106,23 @@ export default class MyTraining extends LightningElement {
             this.showError('Could not submit your request', error);
         } finally {
             this.isSaving = false;
+        }
+    }
+
+    async handleMarkComplete(event) {
+        const employeeTrainingId = event.target.dataset.id;
+        try {
+            await markTrainingComplete({ employeeTrainingId });
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Training marked complete',
+                    message: 'Your record has been updated.',
+                    variant: 'success',
+                })
+            );
+            await refreshApex(this.wiredMyTrainingsResult);
+        } catch (error) {
+            this.showError('Could not mark this training as complete', error);
         }
     }
 

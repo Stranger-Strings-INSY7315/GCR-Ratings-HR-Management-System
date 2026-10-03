@@ -1,0 +1,92 @@
+<template>
+    <lightning-card title="Training Courses" icon-name="standard:learning_content">
+
+        <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+            <h3 class="slds-text-heading_small slds-m-bottom_small">{formTitle}</h3>
+
+            <lightning-input
+                label="Course Name"
+                value={courseName}
+                onchange={handleNameChange}>
+            </lightning-input>
+
+            <lightning-textarea
+                label="Description"
+                value={description}
+                onchange={handleDescriptionChange}>
+            </lightning-textarea>
+
+            <lightning-input
+                type="number"
+                label="Duration (Hours)"
+                value={durationHours}
+                step="0.5"
+                onchange={handleDurationChange}>
+            </lightning-input>
+
+            <lightning-combobox
+                label="Category"
+                value={category}
+                placeholder="Choose a category"
+                options={categoryOptions}
+                onchange={handleCategoryChange}>
+            </lightning-combobox>
+
+            <lightning-input
+                type="checkbox"
+                label="Active"
+                checked={isActive}
+                onchange={handleActiveChange}
+                class="slds-m-top_small">
+            </lightning-input>
+
+            <div class="slds-m-top_small">
+                <lightning-button
+                    variant="brand"
+                    label={saveButtonLabel}
+                    disabled={isSaveDisabled}
+                    onclick={handleSave}>
+                </lightning-button>
+                <template if:true={selectedCourseId}>
+                    <lightning-button
+                        variant="neutral"
+                        label="Cancel"
+                        class="slds-m-left_x-small"
+                        onclick={handleCancelEdit}>
+                    </lightning-button>
+                </template>
+            </div>
+        </div>
+
+        <div class="slds-p-horizontal_medium slds-p-bottom_medium slds-border_top slds-p-top_medium">
+            <h3 class="slds-text-heading_small slds-m-bottom_small">All Courses</h3>
+            <template if:true={courses.length}>
+                <template for:each={courses} for:item="c">
+                    <div key={c.id} class="slds-box slds-m-bottom_small gcr-course-box">
+                        <div class="slds-grid slds-grid_align-spread">
+                            <div>
+                                <p class="slds-text-heading_small">{c.name}</p>
+                                <p>{c.category} - {c.durationHours} hours</p>
+                                <p class="slds-text-color_weak">{c.description}</p>
+                            </div>
+                            <div class="slds-text-align_right">
+                                <span class={c.badgeClass}>{c.statusLabel}</span><br/>
+                                <lightning-button
+                                    variant="neutral"
+                                    label="Edit"
+                                    class="slds-m-top_x-small"
+                                    data-id={c.id}
+                                    onclick={handleEdit}>
+                                </lightning-button>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </template>
+            <template if:false={courses.length}>
+                <p class="slds-text-color_weak">No training courses yet.</p>
+            </template>
+        </div>
+
+    </lightning-card>
+</template>
