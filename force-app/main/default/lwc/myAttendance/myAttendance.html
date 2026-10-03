@@ -36,9 +36,24 @@
             <template if:true={hasHistory}>
                 <template for:each={history} for:item="rec">
                     <div key={rec.attendanceId} class="slds-box slds-m-bottom_small gcr-history-box">
-                        <p class="slds-text-heading_small">{rec.attendanceDate}</p>
-                        <p>Clock In: {rec.clockIn}</p>
-                        <p>Clock Out: {rec.clockOut}</p>
+                        <p class="slds-text-heading_small">
+                            <lightning-formatted-date-time value={rec.attendanceDate} year="numeric" month="short" day="2-digit"></lightning-formatted-date-time>
+                        </p>
+                        <p>
+                            Clock In:
+                            <template if:true={rec.clockIn}>
+                                <lightning-formatted-date-time value={rec.clockIn} hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+                            </template>
+                        </p>
+                        <p>
+                            Clock Out:
+                            <template if:true={rec.clockOut}>
+                                <lightning-formatted-date-time value={rec.clockOut} hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+                            </template>
+                            <template if:false={rec.clockOut}>
+                                <span class="slds-text-color_weak">Still clocked in</span>
+                            </template>
+                        </p>
                     </div>
                 </template>
             </template>
