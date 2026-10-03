@@ -1,0 +1,31 @@
+<template>
+    <lightning-card title="Audit Trail" icon-name="standard:log_a_call">
+        <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+            <template if:true={hasLogs}>
+                <template for:each={logs} for:item="log">
+                    <div key={log.auditLogId} class="slds-box slds-m-bottom_small gcr-audit-box">
+                        <p class="slds-text-heading_small">{log.action}</p>
+                        <p>
+                            <lightning-formatted-date-time
+                                value={log.timestampValue}
+                                year="numeric"
+                                month="short"
+                                day="2-digit"
+                                hour="2-digit"
+                                minute="2-digit"
+                            ></lightning-formatted-date-time>
+                            &nbsp;by {log.userName}
+                        </p>
+                        <p>Object: {log.objectType}</p>
+                        <template if:true={log.details}>
+                            <p class="slds-text-color_weak">{log.details}</p>
+                        </template>
+                    </div>
+                </template>
+            </template>
+            <template if:false={hasLogs}>
+                <p class="slds-text-color_weak">No audit trail entries yet.</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>
