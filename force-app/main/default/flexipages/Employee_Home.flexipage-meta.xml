@@ -31,6 +31,12 @@
                 <identifier>c_myDocuments</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>myPerformanceReviews</componentName>
+                <identifier>c_myPerformanceReviews</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>main</name>
         <type>Region</type>
     </flexiPageRegions>
