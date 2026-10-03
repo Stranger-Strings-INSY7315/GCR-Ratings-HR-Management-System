@@ -37,6 +37,12 @@
                 <identifier>c_myPerformanceReviews</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>myAttendance</componentName>
+                <identifier>c_myAttendance</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>main</name>
         <type>Region</type>
     </flexiPageRegions>

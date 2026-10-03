@@ -1,0 +1,53 @@
+<template>
+    <lightning-card title="My Attendance" icon-name="custom:custom63">
+
+        <div class="slds-p-horizontal_medium">
+
+            <div class="slds-box slds-m-bottom_medium gcr-status-box">
+                <template if:true={showClockInButton}>
+                    <p class="slds-m-bottom_small">You haven't clocked in yet today.</p>
+                    <lightning-button
+                        variant="brand"
+                        label="Clock In"
+                        icon-name="utility:clock"
+                        disabled={isProcessing}
+                        onclick={handleClockIn}>
+                    </lightning-button>
+                </template>
+
+                <template if:true={showClockOutButton}>
+                    <p class="slds-m-bottom_small">You're clocked in. Don't forget to clock out at the end of the day.</p>
+                    <lightning-button
+                        variant="destructive"
+                        label="Clock Out"
+                        icon-name="utility:clock"
+                        disabled={isProcessing}
+                        onclick={handleClockOut}>
+                    </lightning-button>
+                </template>
+
+                <template if:true={hasClockedOut}>
+                    <p>You've completed your attendance for today. See you next time!</p>
+                </template>
+            </div>
+
+            <p class="slds-text-heading_small slds-m-bottom_small">Recent History</p>
+
+            <template if:true={hasHistory}>
+                <template for:each={history} for:item="rec">
+                    <div key={rec.attendanceId} class="slds-box slds-m-bottom_small gcr-history-box">
+                        <p class="slds-text-heading_small">{rec.attendanceDate}</p>
+                        <p>Clock In: {rec.clockIn}</p>
+                        <p>Clock Out: {rec.clockOut}</p>
+                    </div>
+                </template>
+            </template>
+
+            <template if:false={hasHistory}>
+                <p class="slds-text-color_weak slds-p-vertical_medium">No attendance history yet.</p>
+            </template>
+
+        </div>
+
+    </lightning-card>
+</template>
