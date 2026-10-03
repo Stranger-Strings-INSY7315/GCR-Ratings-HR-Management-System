@@ -3,6 +3,12 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>myNotifications</componentName>
+                <identifier>c_myNotifications</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentName>employeeDashboard</componentName>
                 <identifier>c_employeeDashboard</identifier>
             </componentInstance>

@@ -1,0 +1,33 @@
+<template>
+    <lightning-card title="Notifications" icon-name="custom:custom63">
+        <span slot="actions" if:true={hasUnread} class="slds-badge gcr-unread-badge">{unreadCount} unread</span>
+
+        <div class="slds-p-horizontal_medium">
+
+            <template if:true={hasNotifications}>
+                <template for:each={notifications} for:item="note">
+                    <div key={note.notificationId} class={note.boxClass}>
+                        <p>{note.message}</p>
+                        <p class="slds-text-color_weak">
+                            <lightning-formatted-date-time value={note.sentDate} year="numeric" month="short" day="2-digit" hour="2-digit" minute="2-digit"></lightning-formatted-date-time>
+                        </p>
+                        <template if:false={note.isRead}>
+                            <lightning-button
+                                variant="neutral"
+                                label="Mark as Read"
+                                data-id={note.notificationId}
+                                onclick={handleMarkAsRead}>
+                            </lightning-button>
+                        </template>
+                    </div>
+                </template>
+            </template>
+
+            <template if:false={hasNotifications}>
+                <p class="slds-text-color_weak slds-p-vertical_medium">You have no notifications.</p>
+            </template>
+
+        </div>
+
+    </lightning-card>
+</template>

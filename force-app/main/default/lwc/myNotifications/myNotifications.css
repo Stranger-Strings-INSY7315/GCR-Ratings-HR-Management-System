@@ -1,0 +1,12 @@
+.gcr-notification-box {
+    border-left: 4px solid #D2091E;
+}
+
+.gcr-unread-box {
+    background-color: #FEF0CD;
+}
+
+.gcr-unread-badge {
+    background-color: #D2091E;
+    color: #FFFFFF;
+}

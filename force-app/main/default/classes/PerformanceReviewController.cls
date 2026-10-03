@@ -6,7 +6,7 @@
  *
  * A review starts life as a Draft so an HR manager can write it over time
  * without the employee seeing an unfinished review. Finalizing it is what
- * makes it visible on the employee's side.
+ * makes it visible on the employee's side, and also notifies the employee.
  */
 public with sharing class PerformanceReviewController {
 
@@ -145,6 +145,18 @@ public with sharing class PerformanceReviewController {
             throw new AuraHandledException('A review must be specified.');
         }
 
+        List<Performance_Review__c> matches = [
+            SELECT Id, Employee__r.Salesforce_User__c, Review_Date__c
+            FROM Performance_Review__c
+            WHERE Id = :reviewId
+            WITH USER_MODE
+            LIMIT 1
+        ];
+        if (matches.isEmpty()) {
+            throw new AuraHandledException('That review could not be found.');
+        }
+        Performance_Review__c review = matches[0];
+
         Performance_Review__c updateRecord = new Performance_Review__c(
             Id = reviewId,
             Status__c = 'Finalized'
@@ -154,6 +166,13 @@ public with sharing class PerformanceReviewController {
             update as user updateRecord;
         } catch (DmlException e) {
             throw new AuraHandledException('Could not finalize this review: ' + e.getMessage());
+        }
+
+        if (review.Employee__r.Salesforce_User__c != null) {
+            NotificationService.notify(
+                review.Employee__r.Salesforce_User__c,
+                'A new performance review dated ' + review.Review_Date__c.format() + ' has been finalized and is now available for you to view.'
+            );
         }
     }
 
