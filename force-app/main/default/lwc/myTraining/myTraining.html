@@ -8,6 +8,15 @@
                     <div key={t.id} class="slds-box slds-m-bottom_small">
                         <p class="slds-text-heading_small">{t.courseName}</p>
                         <p>Status: <strong>{t.status}</strong> - {t.hours} hours</p>
+                        <template if:true={t.canMarkComplete}>
+                            <lightning-button
+                                variant="success"
+                                label="Mark Complete"
+                                class="slds-m-top_x-small"
+                                data-id={t.id}
+                                onclick={handleMarkComplete}>
+                            </lightning-button>
+                        </template>
                     </div>
                 </template>
             </template>
