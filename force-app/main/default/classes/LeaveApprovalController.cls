@@ -4,7 +4,8 @@
  *   - list of all leave requests waiting for a decision
  *   - approving a request (and deducting the days from that employee's balance)
  *   - rejecting a request (with a reason)
- * Also notifies the employee when a decision is made on their request.
+ * Also notifies the employee when a decision is made on their request, and
+ * writes an audit trail entry for every approve/reject decision.
  */
 public with sharing class LeaveApprovalController {
 
@@ -122,6 +123,13 @@ public with sharing class LeaveApprovalController {
                 'Your leave request from ' + lv.Start_Date__c.format() + ' to ' + lv.End_Date__c.format() + ' has been approved.'
             );
         }
+
+        AuditService.log(
+            'Leave Approved',
+            'Leave__c',
+            lv.Id,
+            'Leave request from ' + lv.Start_Date__c.format() + ' to ' + lv.End_Date__c.format() + ' was approved.'
+        );
     }
 
     @AuraEnabled
@@ -166,6 +174,13 @@ public with sharing class LeaveApprovalController {
                 'Your leave request from ' + lv.Start_Date__c.format() + ' to ' + lv.End_Date__c.format() + ' has been rejected. Reason: ' + rejectionReason
             );
         }
+
+        AuditService.log(
+            'Leave Rejected',
+            'Leave__c',
+            lv.Id,
+            'Leave request from ' + lv.Start_Date__c.format() + ' to ' + lv.End_Date__c.format() + ' was rejected. Reason: ' + rejectionReason
+        );
     }
 
     // Looks up the Employee__c record linked to whoever is currently logged in,
