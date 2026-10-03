@@ -6,7 +6,8 @@
  *
  * A review starts life as a Draft so an HR manager can write it over time
  * without the employee seeing an unfinished review. Finalizing it is what
- * makes it visible on the employee's side, and also notifies the employee.
+ * makes it visible on the employee's side, notifies the employee, and
+ * writes an audit trail entry.
  */
 public with sharing class PerformanceReviewController {
 
@@ -174,6 +175,13 @@ public with sharing class PerformanceReviewController {
                 'A new performance review dated ' + review.Review_Date__c.format() + ' has been finalized and is now available for you to view.'
             );
         }
+
+        AuditService.log(
+            'Performance Review Finalized',
+            'Performance_Review__c',
+            review.Id,
+            'Performance review dated ' + review.Review_Date__c.format() + ' was finalized.'
+        );
     }
 
     // ---------- Shared helper ----------

@@ -3,6 +3,7 @@
  * Powers Attendance tracking on both sides:
  *   - Employee app: clock in / clock out, and a personal attendance history
  *   - HR/Admin portal: a read-only overview of everyone's attendance
+ * Every clock in and clock out also writes an audit trail entry.
  */
 public with sharing class AttendanceController {
 
@@ -97,6 +98,13 @@ public with sharing class AttendanceController {
         } catch (DmlException e) {
             throw new AuraHandledException('Could not clock in: ' + e.getMessage());
         }
+
+        AuditService.log(
+            'Clock In',
+            'Attendance__c',
+            newRecord.Id,
+            'Employee clocked in at ' + newRecord.Clock_In__c.format()
+        );
     }
 
     @AuraEnabled
@@ -118,11 +126,13 @@ public with sharing class AttendanceController {
             throw new AuraHandledException('You have already clocked out today.');
         }
 
+        Datetime clockOutTime = Datetime.now();
+
         // Minimal record: only Clock_Out__c, never touching Employee__c
         // (a master-detail field - see PerformanceReviewController for why).
         Attendance__c updateRecord = new Attendance__c(
             Id = todayRecords[0].Id,
-            Clock_Out__c = Datetime.now()
+            Clock_Out__c = clockOutTime
         );
 
         try {
@@ -130,6 +140,13 @@ public with sharing class AttendanceController {
         } catch (DmlException e) {
             throw new AuraHandledException('Could not clock out: ' + e.getMessage());
         }
+
+        AuditService.log(
+            'Clock Out',
+            'Attendance__c',
+            todayRecords[0].Id,
+            'Employee clocked out at ' + clockOutTime.format()
+        );
     }
 
     // ---------- HR / Admin overview ----------
