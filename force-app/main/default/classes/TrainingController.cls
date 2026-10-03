@@ -5,6 +5,7 @@
  *   - list of training courses they can request
  *   - list of requests they've already submitted
  *   - submitting a new training request
+ *   - marking an assigned training as complete
  */
 public with sharing class TrainingController {
 
@@ -67,7 +68,7 @@ public with sharing class TrainingController {
         req.Employee__c = employeeId;
         req.Course__c = courseId;
         req.Justification__c = reason;
-        req.Status__c = 'Pending';
+        req.Status__c = 'Submitted';
         req.Request_Date__c = Date.today();
 
         try {
@@ -77,5 +78,35 @@ public with sharing class TrainingController {
         }
 
         return req.Id;
+    }
+
+    @AuraEnabled
+    public static void markTrainingComplete(Id employeeTrainingId) {
+        if (employeeTrainingId == null) {
+            throw new AuraHandledException('A training assignment must be specified.');
+        }
+
+        // Minimal record: only the fields being changed, never touching
+        // Employee__c or Course__c (master-detail/lookup fields we don't
+        // need to re-send, consistent with the lesson learned elsewhere
+        // in this project).
+        Employee_Training__c updateRecord = new Employee_Training__c(
+            Id = employeeTrainingId,
+            Status__c = 'Completed',
+            Completion_Date__c = Date.today()
+        );
+
+        try {
+            update as user updateRecord;
+        } catch (DmlException e) {
+            throw new AuraHandledException('Could not mark this training as complete: ' + e.getMessage());
+        }
+
+        AuditService.log(
+            'Training Completed',
+            'Employee_Training__c',
+            employeeTrainingId,
+            'Employee marked a training assignment as complete on ' + Date.today().format() + '.'
+        );
     }
 }

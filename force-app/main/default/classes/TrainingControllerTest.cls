@@ -66,7 +66,7 @@ private class TrainingControllerTest {
         Test.stopTest();
 
         Training_Request__c created = [SELECT Status__c, Justification__c FROM Training_Request__c WHERE Id = :newId];
-        System.assertEquals('Pending', created.Status__c, 'New requests should default to Pending');
+        System.assertEquals('Submitted', created.Status__c, 'New requests should default to Submitted');
     }
 
     @isTest
@@ -90,5 +90,29 @@ private class TrainingControllerTest {
             errorThrown = true;
         }
         System.assertEquals(true, errorThrown, 'Should throw when required ids are missing');
+    }
+
+    @isTest
+    static void testMarkTrainingComplete() {
+        Employee_Training__c assigned = [SELECT Id FROM Employee_Training__c LIMIT 1];
+
+        Test.startTest();
+        TrainingController.markTrainingComplete(assigned.Id);
+        Test.stopTest();
+
+        Employee_Training__c updated = [SELECT Status__c, Completion_Date__c FROM Employee_Training__c WHERE Id = :assigned.Id];
+        System.assertEquals('Completed', updated.Status__c, 'Status should be updated to Completed');
+        System.assertEquals(Date.today(), updated.Completion_Date__c, 'Completion date should be set to today');
+    }
+
+    @isTest
+    static void testMarkTrainingCompleteMissingId() {
+        Boolean errorThrown = false;
+        try {
+            TrainingController.markTrainingComplete(null);
+        } catch (AuraHandledException e) {
+            errorThrown = true;
+        }
+        System.assertEquals(true, errorThrown, 'Should throw when the training assignment id is missing');
     }
 }
