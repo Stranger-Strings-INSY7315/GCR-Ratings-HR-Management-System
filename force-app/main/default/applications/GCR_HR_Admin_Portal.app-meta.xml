@@ -13,6 +13,7 @@
     <label>GCR HR Admin Portal</label>
     <navType>Standard</navType>
     <tabs>HR_Leave_Approvals</tabs>
+    <tabs>Audit_Trail</tabs>
     <tabs>HR_Performance_Reviews</tabs>
     <tabs>Attendance_Overview</tabs>
     <uiType>Lightning</uiType>
