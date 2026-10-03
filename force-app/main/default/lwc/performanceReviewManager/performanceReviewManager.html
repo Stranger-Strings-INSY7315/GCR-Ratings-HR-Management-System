@@ -1,0 +1,164 @@
+<template>
+    <lightning-card title="Performance Reviews" icon-name="custom:custom63">
+
+        <div class="slds-p-horizontal_medium">
+
+            <template if:false={showNewForm}>
+                <lightning-button
+                    variant="brand"
+                    label="New Review"
+                    icon-name="utility:add"
+                    onclick={handleShowNewForm}>
+                </lightning-button>
+            </template>
+
+            <template if:true={showNewForm}>
+                <div class="slds-box slds-m-bottom_medium gcr-new-review-box">
+                    <p class="slds-text-heading_small slds-m-bottom_small">New Performance Review</p>
+
+                    <lightning-combobox
+                        name="employee"
+                        label="Employee"
+                        placeholder="Select an employee"
+                        value={newEmployeeId}
+                        options={employeeOptions}
+                        onchange={handleNewEmployeeChange}
+                        class="slds-m-bottom_small">
+                    </lightning-combobox>
+
+                    <lightning-input
+                        type="date"
+                        name="reviewDate"
+                        label="Review Date"
+                        value={newReviewDate}
+                        onchange={handleNewDateChange}
+                        class="slds-m-bottom_small">
+                    </lightning-input>
+
+                    <lightning-combobox
+                        name="rating"
+                        label="Rating"
+                        placeholder="Select a rating"
+                        value={newRating}
+                        options={ratingOptions}
+                        onchange={handleNewRatingChange}
+                        class="slds-m-bottom_small">
+                    </lightning-combobox>
+
+                    <lightning-textarea
+                        name="comments"
+                        label="Comments"
+                        value={newComments}
+                        onchange={handleNewCommentsChange}
+                        class="slds-m-bottom_small">
+                    </lightning-textarea>
+
+                    <lightning-button
+                        variant="brand"
+                        label="Save as Draft"
+                        class="slds-m-right_small"
+                        disabled={isProcessing}
+                        onclick={handleSaveNew}>
+                    </lightning-button>
+                    <lightning-button
+                        variant="neutral"
+                        label="Cancel"
+                        disabled={isProcessing}
+                        onclick={handleCancelNew}>
+                    </lightning-button>
+                </div>
+            </template>
+
+            <template if:true={hasReviews}>
+                <template for:each={reviews} for:item="rev">
+                    <div key={rev.reviewId} class="slds-box slds-m-top_small slds-m-bottom_small gcr-review-box">
+
+                        <template if:false={rev.isEditing}>
+                            <div class="slds-grid slds-grid_align-spread">
+                                <p class="slds-text-heading_small">{rev.employeeName}</p>
+                                <span class={rev.status}>{rev.status}</span>
+                            </div>
+                            <p>Review Date: {rev.reviewDate}</p>
+                            <p>Reviewer: {rev.reviewerName}</p>
+                            <p>Rating: {rev.ratingLabel}</p>
+                            <p>Comments: {rev.comments}</p>
+
+                            <template if:true={rev.isDraft}>
+                                <div class="slds-m-top_small">
+                                    <lightning-button
+                                        variant="neutral"
+                                        label="Edit"
+                                        class="slds-m-right_small"
+                                        data-id={rev.reviewId}
+                                        disabled={isProcessing}
+                                        onclick={handleEdit}>
+                                    </lightning-button>
+                                    <lightning-button
+                                        variant="success"
+                                        label="Finalize"
+                                        data-id={rev.reviewId}
+                                        disabled={isProcessing}
+                                        onclick={handleFinalize}>
+                                    </lightning-button>
+                                </div>
+                            </template>
+                        </template>
+
+                        <template if:true={rev.isEditing}>
+                            <p class="slds-text-heading_small slds-m-bottom_small">Editing review for {rev.employeeName}</p>
+
+                            <lightning-input
+                                type="date"
+                                name="editReviewDate"
+                                label="Review Date"
+                                value={editReviewDate}
+                                onchange={handleEditDateChange}
+                                class="slds-m-bottom_small">
+                            </lightning-input>
+
+                            <lightning-combobox
+                                name="editRating"
+                                label="Rating"
+                                placeholder="Select a rating"
+                                value={editRating}
+                                options={ratingOptions}
+                                onchange={handleEditRatingChange}
+                                class="slds-m-bottom_small">
+                            </lightning-combobox>
+
+                            <lightning-textarea
+                                name="editComments"
+                                label="Comments"
+                                value={editComments}
+                                onchange={handleEditCommentsChange}
+                                class="slds-m-bottom_small">
+                            </lightning-textarea>
+
+                            <lightning-button
+                                variant="brand"
+                                label="Save Changes"
+                                class="slds-m-right_small"
+                                data-id={rev.reviewId}
+                                disabled={isProcessing}
+                                onclick={handleSaveEdit}>
+                            </lightning-button>
+                            <lightning-button
+                                variant="neutral"
+                                label="Cancel"
+                                disabled={isProcessing}
+                                onclick={handleCancelEdit}>
+                            </lightning-button>
+                        </template>
+
+                    </div>
+                </template>
+            </template>
+
+            <template if:false={hasReviews}>
+                <p class="slds-text-color_weak slds-p-vertical_medium">No performance reviews have been created yet.</p>
+            </template>
+
+        </div>
+
+    </lightning-card>
+</template>

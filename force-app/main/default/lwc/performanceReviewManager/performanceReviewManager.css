@@ -1,0 +1,30 @@
+.gcr-review-box {
+    border-left: 4px solid #D2091E;
+}
+
+.gcr-new-review-box {
+    border-left: 4px solid #D2091E;
+    background-color: #FAFAFA;
+}
+
+.Draft {
+    background-color: #FEF0CD;
+    color: #8C6900;
+    border-radius: 0.25rem;
+    padding: 0.125rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    height: fit-content;
+}
+
+.Finalized {
+    background-color: #D2F8E1;
+    color: #0B6B3A;
+    border-radius: 0.25rem;
+    padding: 0.125rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    height: fit-content;
+}
