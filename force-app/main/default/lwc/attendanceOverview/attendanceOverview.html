@@ -1,0 +1,22 @@
+<template>
+    <lightning-card title="Attendance Overview" icon-name="custom:custom63">
+
+        <div class="slds-p-horizontal_medium">
+
+            <template if:true={hasRecords}>
+                <lightning-datatable
+                    key-field="attendanceId"
+                    data={records}
+                    columns={columns}
+                    hide-checkbox-column="true">
+                </lightning-datatable>
+            </template>
+
+            <template if:false={hasRecords}>
+                <p class="slds-text-color_weak slds-p-vertical_medium">No attendance records yet.</p>
+            </template>
+
+        </div>
+
+    </lightning-card>
+</template>
