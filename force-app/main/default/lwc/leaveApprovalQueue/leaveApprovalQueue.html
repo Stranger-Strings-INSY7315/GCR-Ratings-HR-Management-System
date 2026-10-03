@@ -1,0 +1,64 @@
+<template>
+    <lightning-card title="Pending Leave Approvals" icon-name="custom:custom63">
+
+        <div class="slds-p-horizontal_medium">
+            <template if:true={hasRequests}>
+                <template for:each={leaveRequests} for:item="req">
+                    <div key={req.id} class="slds-box slds-m-bottom_small">
+                        <p class="slds-text-heading_small">{req.employeeName} - {req.leaveTypeName}</p>
+                        <p>From {req.startDate} to {req.endDate}</p>
+                        <p>Reason: {req.reason}</p>
+
+                        <div class="slds-m-top_small">
+                            <lightning-button
+                                variant="success"
+                                label="Approve"
+                                class="slds-m-right_small"
+                                data-id={req.id}
+                                disabled={isProcessing}
+                                onclick={handleApprove}>
+                            </lightning-button>
+                            <lightning-button
+                                variant="destructive"
+                                label="Reject"
+                                data-id={req.id}
+                                disabled={isProcessing}
+                                onclick={handleShowReject}>
+                            </lightning-button>
+                        </div>
+
+                        <template if:true={req.isRejecting}>
+                            <div class="slds-m-top_small slds-p-top_small slds-border_top">
+                                <lightning-textarea
+                                    name="rejectionReason"
+                                    label="Reason for rejecting this request"
+                                    value={rejectionReason}
+                                    onchange={handleReasonChange}>
+                                </lightning-textarea>
+                                <lightning-button
+                                    variant="brand"
+                                    label="Confirm Rejection"
+                                    class="slds-m-top_small slds-m-right_small"
+                                    data-id={req.id}
+                                    disabled={isProcessing}
+                                    onclick={handleConfirmReject}>
+                                </lightning-button>
+                                <lightning-button
+                                    variant="neutral"
+                                    label="Cancel"
+                                    class="slds-m-top_small"
+                                    disabled={isProcessing}
+                                    onclick={handleCancelReject}>
+                                </lightning-button>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </template>
+            <template if:false={hasRequests}>
+                <p class="slds-text-color_weak slds-p-vertical_medium">There are no leave requests waiting for approval.</p>
+            </template>
+        </div>
+
+    </lightning-card>
+</template>
