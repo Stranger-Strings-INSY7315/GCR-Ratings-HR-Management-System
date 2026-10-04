@@ -2,3 +2,5 @@
 .sf/
 node_modules/
 .vscode/
+authfile.json
+*_describe.json
