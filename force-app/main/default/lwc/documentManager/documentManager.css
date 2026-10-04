@@ -1,0 +1,6 @@
+.gcr-create-box,
+.gcr-upload-box,
+.gcr-document-box {
+    border-left: 4px solid #D2091E;
+    padding: 1rem;
+}
