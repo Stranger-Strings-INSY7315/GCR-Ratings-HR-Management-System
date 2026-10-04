@@ -1,0 +1,84 @@
+<template>
+    <lightning-card title="Document Management" icon-name="standard:document">
+        <div class="slds-var-p-around_medium">
+
+            <template lwc:if={showFileUpload}>
+                <div class="gcr-upload-box slds-box slds-var-m-bottom_medium">
+                    <h3 class="slds-text-heading_small slds-var-m-bottom_small">Step 2: Attach the File</h3>
+                    <p class="slds-var-m-bottom_small">Document record created. Please upload the file to attach to it.</p>
+                    <lightning-file-upload
+                        label="Upload File"
+                        name="fileUploader"
+                        record-id={newDocumentId}
+                        accept={acceptedFormats}
+                        onuploadfinished={handleUploadFinished}>
+                    </lightning-file-upload>
+                </div>
+            </template>
+            <template lwc:else>
+                <div class="gcr-create-box slds-box slds-var-m-bottom_medium">
+                    <h3 class="slds-text-heading_small slds-var-m-bottom_small">Step 1: Create a Document Record</h3>
+
+                    <lightning-combobox
+                        label="Employee"
+                        placeholder="Select an employee"
+                        value={selectedEmployeeId}
+                        options={employeeOptions}
+                        onchange={handleEmployeeChange}
+                        class="slds-var-m-bottom_small">
+                    </lightning-combobox>
+
+                    <lightning-input
+                        label="Document Name"
+                        value={documentName}
+                        onchange={handleNameChange}
+                        class="slds-var-m-bottom_small">
+                    </lightning-input>
+
+                    <lightning-combobox
+                        label="Category"
+                        placeholder="Select a category"
+                        value={selectedCategory}
+                        options={categoryOptions}
+                        onchange={handleCategoryChange}
+                        class="slds-var-m-bottom_small">
+                    </lightning-combobox>
+
+                    <lightning-button
+                        label="Create Document Record"
+                        variant="brand"
+                        onclick={handleCreateDocument}>
+                    </lightning-button>
+                </div>
+            </template>
+
+            <h3 class="slds-text-heading_small slds-var-m-bottom_small">All Documents</h3>
+
+            <template lwc:if={hasDocuments}>
+                <template for:each={documents} for:item="doc">
+                    <div key={doc.documentId} class="gcr-document-box slds-box slds-var-m-bottom_small">
+                        <p class="slds-text-heading_small">{doc.documentName}</p>
+                        <p><strong>Employee:</strong> {doc.employeeName}</p>
+                        <p><strong>Category:</strong> {doc.category}</p>
+                        <p>
+                            <strong>Upload Date:</strong>
+                            <lightning-formatted-date-time
+                                value={doc.uploadDate}
+                                year="numeric"
+                                month="short"
+                                day="2-digit"
+                                hour="2-digit"
+                                minute="2-digit">
+                            </lightning-formatted-date-time>
+                        </p>
+                        <a href={doc.downloadUrl} target="_blank">Download File</a>
+                    </div>
+                </template>
+            </template>
+            <template lwc:else>
+                <p>No documents have been uploaded yet.</p>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>
