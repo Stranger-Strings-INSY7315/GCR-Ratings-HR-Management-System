@@ -12,6 +12,7 @@
     <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
     <label>GCR HR Admin Portal</label>
     <navType>Standard</navType>
+    <tabs>HR_Dashboard</tabs>
     <tabs>HR_Leave_Approvals</tabs>
     <tabs>Document_Management</tabs>
     <tabs>Training_Requests</tabs>
