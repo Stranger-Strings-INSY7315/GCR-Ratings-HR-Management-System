@@ -1,0 +1,88 @@
+<template>
+    <lightning-card title="HR Dashboard" icon-name="standard:dashboard">
+        <div class="slds-var-p-around_medium">
+
+            <template lwc:if={hasStats}>
+
+                <div class="gcr-stats-grid slds-var-m-bottom_medium">
+                    <div class="gcr-stat-card">
+                        <p class="gcr-stat-number">{stats.totalEmployees}</p>
+                        <p class="gcr-stat-label">Total Employees</p>
+                    </div>
+                    <div class="gcr-stat-card">
+                        <p class="gcr-stat-number">{stats.activeEmployees}</p>
+                        <p class="gcr-stat-label">Active Employees</p>
+                    </div>
+                    <div class="gcr-stat-card">
+                        <p class="gcr-stat-number">{stats.pendingLeaveRequests}</p>
+                        <p class="gcr-stat-label">Pending Leave Requests</p>
+                    </div>
+                    <div class="gcr-stat-card">
+                        <p class="gcr-stat-number">{stats.trainingCompletionRate}%</p>
+                        <p class="gcr-stat-label">Training Completion Rate</p>
+                    </div>
+                    <div class="gcr-stat-card">
+                        <p class="gcr-stat-number">{stats.averageRating} / 5</p>
+                        <p class="gcr-stat-label">Average Performance Rating</p>
+                    </div>
+                    <div class="gcr-stat-card">
+                        <p class="gcr-stat-number">{stats.attendanceRecordsThisMonth}</p>
+                        <p class="gcr-stat-label">Attendance Records This Month</p>
+                    </div>
+                </div>
+
+                <div class="gcr-chart-box slds-box slds-var-m-bottom_medium">
+                    <h3 class="slds-text-heading_small slds-var-m-bottom_small">
+                        Leave Requests by Status ({stats.totalLeaveRequests} total)
+                    </h3>
+
+                    <p class="gcr-bar-label">Pending ({stats.pendingLeaveRequests})</p>
+                    <div class="gcr-bar-track">
+                        <div class="gcr-bar-fill gcr-bar-pending" style={pendingLeaveBarStyle}></div>
+                    </div>
+
+                    <p class="gcr-bar-label">Approved ({stats.approvedLeaveRequests})</p>
+                    <div class="gcr-bar-track">
+                        <div class="gcr-bar-fill gcr-bar-approved" style={approvedLeaveBarStyle}></div>
+                    </div>
+
+                    <p class="gcr-bar-label">Rejected ({stats.rejectedLeaveRequests})</p>
+                    <div class="gcr-bar-track">
+                        <div class="gcr-bar-fill gcr-bar-rejected" style={rejectedLeaveBarStyle}></div>
+                    </div>
+                </div>
+
+                <div class="gcr-chart-box slds-box">
+                    <h3 class="slds-text-heading_small slds-var-m-bottom_small">
+                        Training Assignments by Status ({stats.totalTrainingAssignments} total)
+                    </h3>
+
+                    <p class="gcr-bar-label">Assigned ({stats.assignedTraining})</p>
+                    <div class="gcr-bar-track">
+                        <div class="gcr-bar-fill gcr-bar-pending" style={assignedTrainingBarStyle}></div>
+                    </div>
+
+                    <p class="gcr-bar-label">In Progress ({stats.inProgressTraining})</p>
+                    <div class="gcr-bar-track">
+                        <div class="gcr-bar-fill gcr-bar-inprogress" style={inProgressTrainingBarStyle}></div>
+                    </div>
+
+                    <p class="gcr-bar-label">Completed ({stats.completedTraining})</p>
+                    <div class="gcr-bar-track">
+                        <div class="gcr-bar-fill gcr-bar-approved" style={completedTrainingBarStyle}></div>
+                    </div>
+
+                    <p class="gcr-bar-label">Overdue ({stats.overdueTraining})</p>
+                    <div class="gcr-bar-track">
+                        <div class="gcr-bar-fill gcr-bar-rejected" style={overdueTrainingBarStyle}></div>
+                    </div>
+                </div>
+
+            </template>
+            <template lwc:else>
+                <p>Loading dashboard data...</p>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

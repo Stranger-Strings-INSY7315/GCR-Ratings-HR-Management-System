@@ -1,0 +1,65 @@
+.gcr-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.gcr-stat-card {
+    border-left: 4px solid #D2091E;
+    background-color: #FAFAFA;
+    padding: 1rem;
+    text-align: center;
+}
+
+.gcr-stat-number {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #D2091E;
+    margin: 0;
+}
+
+.gcr-stat-label {
+    font-size: 0.8rem;
+    color: #555;
+    margin-top: 0.25rem;
+}
+
+.gcr-chart-box {
+    border-left: 4px solid #D2091E;
+    padding: 1rem;
+}
+
+.gcr-bar-label {
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+    margin-top: 0.75rem;
+}
+
+.gcr-bar-track {
+    width: 100%;
+    background-color: #EAEAEA;
+    border-radius: 4px;
+    height: 14px;
+    overflow: hidden;
+}
+
+.gcr-bar-fill {
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.gcr-bar-pending {
+    background-color: #FFB75D;
+}
+
+.gcr-bar-approved {
+    background-color: #2E844A;
+}
+
+.gcr-bar-rejected {
+    background-color: #D2091E;
+}
+
+.gcr-bar-inprogress {
+    background-color: #0176D3;
+}
