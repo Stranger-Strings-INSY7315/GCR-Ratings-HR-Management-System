@@ -21,6 +21,12 @@ The system is built entirely on the Salesforce Platform, using declarative tools
 
 GCR Ratings – An Affiliate of Moody's
 
+## Task 2 Implementation Presentation
+
+A recorded walkthrough of the system (architecture, database and APIs, security, GitHub workflow, live demo of both portals, and deployment) is available here:
+
+**[Watch the presentation (16:45)](https://youtu.be/iGqEr27ww1s)**
+
 ## Features
 
 ### Employee App
@@ -48,6 +54,7 @@ GCR Ratings – An Affiliate of Moody's
 - **Database:** Native Salesforce custom objects (declarative schema, no external database)
 - **APIs:** Salesforce REST/SOAP APIs (auto-exposed per object/class), Lightning Data Service
 - **Security:** Multi-Factor Authentication, field-level security via Permission Sets, session security policies, `WITH USER_MODE` enforced SOQL, CRUD/FLS-safe Apex
+- **CI/CD:** GitHub Actions
 
 ## Architecture & Hosting
 
@@ -80,9 +87,23 @@ Full details are documented in [`docs/Security_Implementation_Documentation.docx
 - `WITH USER_MODE` enforcement in all SOQL queries to prevent SOQL injection and privilege escalation
 - Documented security trade-offs (e.g. Login IP Restrictions intentionally not enforced, with rationale)
 
+## CI/CD Pipeline
+
+A GitHub Actions workflow (`.github/workflows/ci.yml`) runs automatically on every push and pull request to `develop` and `main`. It:
+1. Checks out the source code
+2. Installs the Salesforce CLI
+3. Authenticates to the Salesforce org using an encrypted GitHub Secret (no credentials are stored in the repository)
+4. Deploys the metadata and runs all local Apex tests (`RunLocalTests`)
+
+A failing test fails the pipeline, giving immediate feedback before changes are merged. Run history is visible under the repository's **Actions** tab.
+
 ## Project Structure
 
 HR-Management-System/
+│
+├── .github/
+│ └── workflows/
+│ └── ci.yml # CI/CD pipeline (GitHub Actions)
 │
 ├── force-app/
 │ └── main/default/
